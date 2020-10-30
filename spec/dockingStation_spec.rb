@@ -39,10 +39,10 @@ describe DockingStation do
      it { docking_station.should respond_to(:dock).with(1).argument }
 
      it "docks something" do
-       expect(docking_station.dock(bike)).to eq bike
+       expect(docking_station.dock(bike)).to eq [bike]
      end
     it 'raises an error when full' do
-        #20.times {docking_station.dock bike }
-         expect { docking_station.dock bike}.to raise_error 'Docking station full'
+        20.times {docking_station.dock Bike.new }
+        expect { docking_station.dock Bike.new}.to raise_error 'Docking station full'
   end
 end
