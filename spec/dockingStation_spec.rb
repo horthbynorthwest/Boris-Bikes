@@ -2,14 +2,10 @@ require 'docking_station'
 
 describe DockingStation do
   docking_station = described_class.new
-  bike = docking_station.release_bike
+  bike = Bike.new
 
   # responds to release_bike method"
     it { docking_station.should respond_to(:release_bike) }
-
-    it "release_bike produces a new instance of the Bike class" do
-       expect(docking_station.release_bike).to be_instance_of(Bike)
-     end
 
   # "responds to working? method in Bike class"
     it { bike.should respond_to(:working?) }
@@ -17,24 +13,36 @@ describe DockingStation do
     it "checks the bike is working" do
       expect(bike.working?).to eq true
     end
+  end
 
-    it { docking_station.should respond_to(:dock_bike) }
+  describe '#release bike' do
+    docking_station = DockingStation.new
+    bike = Bike.new
+    it "releases a bike" do
+      docking_station.dock(bike)
+      expect(docking_station.release_bike).to eq bike
+    end
+  end
 
-    it "release_bike releases a bike" do
-      expect(docking_station.release_bike).to eq "Bike released!"
+    describe '#release_bike' do
+      docking_station = DockingStation.new
+      bike = Bike.new
+      it 'raises an error when there are no bikes available' do
+        #let's not dock a bike first:
+        expect { docking_station.release_bike }.to raise_error 'No bikes available'
+      end
     end
 
-    it "doesn't let you take a bike from an empty docking station" do
-      @bike == 0
-      expect(subject.release_bike).to eq ("No bikes available")
-    end
+   describe '#dock' do
+     docking_station = DockingStation.new
+     bike = Bike.new
+     it { docking_station.should respond_to(:dock).with(1).argument }
 
-    it "dock_bike docks bike" do
-      expect(docking_station.dock_bike).to eq "Bike docked!"
-    end
-
-    it "doesn't let you put a bike into a full docking station" do
-      @bike == 1
-      expect(subject.dock_bike).to eq ("No room for bikes")
-    end
+     it "docks something" do
+       expect(docking_station.dock(bike)).to eq bike
+     end
+    it 'raises an error when full' do
+        #20.times {docking_station.dock bike }
+         expect { docking_station.dock bike}.to raise_error 'Docking station full'
+  end
 end

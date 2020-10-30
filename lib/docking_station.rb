@@ -1,15 +1,15 @@
-class DockingStation
-  @@bike = 0
+require_relative 'bike'
 
+class DockingStation
   def release_bike
-    Bike.new
+    fail 'No bikes available' unless @bike
+    @bike
   end
-  def dock_bike
-    if @@bike == 0
-      @@bike +=1
-      "Bike docked!"
-    elsif @@bike == 1
-      "No room for bikes"
-    end
+
+  def dock(bike)
+    fail 'Docking station full' if @bike
+    @bike = bike
   end
+
+  attr_reader :bike
 end
